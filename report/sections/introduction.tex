@@ -1,0 +1,17 @@
+\section{Introduction}
+
+Text classification is commonly formulated as a mapping $f(x)=y$ from a Unicode string $x$ to a discrete label $y$. For an intent detector, ``How can I reset my PIN?'' should map to a password or PIN-related intent. A user can, however, replace Latin \texttt{a} (U+0061) with Cyrillic small letter a (U+0430), insert a zero-width character, use a compatibility form, or change canonical composition. The rendered utterance can remain indistinguishable or nearly indistinguishable while the classifier receives a different sequence of code points.
+
+This is a practical concern for intent classification, spam and phishing filters, content moderation, and other systems exposed to untrusted text. It is also a useful scientific setting: word, character, and subword representations transform the same perturbation in different ways. A word vocabulary may turn one modified character into an out-of-vocabulary token; character $n$-grams may lose only local features; and byte-pair or WordPiece tokenizers may fragment one familiar word into several uncommon tokens.
+
+We address four questions:
+\begin{enumerate}
+  \item How does classification degrade as the perturbation rate increases?
+  \item Are word-, character-, BPE-, and Transformer-based systems affected differently?
+  \item Are subword tokenization changes associated with attack success?
+  \item Can lightweight Unicode preprocessing recover attacked performance without harming clean inputs?
+\end{enumerate}
+
+The central comparison holds the downstream classical classifier fixed: three TF--IDF representations feed Logistic Regression. DistilBERT is included as a modern pretrained reference rather than as a controlled representation-only comparison. All models receive exactly the same attacked examples.
+
+The contribution is a reproducible experiment rather than a new attack algorithm. It combines (i) a shared, auditable attack corpus with gradual budgets and three attack seeds; (ii) a controlled comparison of word, character, and BPE features; (iii) a pretrained Transformer reference with three fine-tuning seeds; (iv) deployment-style defenses applied to both clean and attacked inputs; and (v) paired uncertainty and tokenization diagnostics. This design makes it possible to distinguish an attack's nominal strength from its effective coverage and to ask whether a defense restores performance at the cost of changing legitimate clean text.

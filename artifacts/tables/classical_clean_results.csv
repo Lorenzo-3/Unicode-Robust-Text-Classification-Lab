@@ -1,0 +1,7 @@
+dataset,model,best_c,validation_macro_f1,clean_accuracy,clean_macro_f1,artifact
+banking77,word_tfidf,10.0,0.8761513299488233,0.8853896103896104,0.8856863999539778,artifacts/predictions/raw/banking77/word_tfidf/seed_42/none.parquet
+banking77,char_tfidf,10.0,0.9111397130891858,0.9058441558441559,0.9059001499562502,artifacts/predictions/raw/banking77/char_tfidf/seed_42/none.parquet
+banking77,bpe_tfidf,10.0,0.8713707319645329,0.8821428571428571,0.8822343466455216,artifacts/predictions/raw/banking77/bpe_tfidf/seed_42/none.parquet
+trec,word_tfidf,10.0,0.8602588008482729,0.888,0.8845340207367317,artifacts/predictions/raw/trec/word_tfidf/seed_42/none.parquet
+trec,char_tfidf,10.0,0.8515481067701982,0.888,0.8830199884533524,artifacts/predictions/raw/trec/char_tfidf/seed_42/none.parquet
+trec,bpe_tfidf,10.0,0.8596884653837863,0.89,0.878803052932271,artifacts/predictions/raw/trec/bpe_tfidf/seed_42/none.parquet

@@ -1,0 +1,63 @@
+project:
+  title: "Robustness of Text Classification to Adversarial Unicode Perturbations"
+  author: "Lorenzo Marinelli"
+  student_id: "2043092"
+  root_seed: 42
+
+paths:
+  processed_data: "data/processed/datasets.parquet"
+  metadata: "artifacts/datasets/metadata.json"
+  attacks: "artifacts/datasets/attacks.parquet"
+  predictions: "artifacts/predictions"
+  models: "artifacts/models"
+  tables: "artifacts/tables"
+  figures: "artifacts/figures"
+  logs: "artifacts/logs"
+  report_generated: "report/generated"
+
+datasets:
+  banking77:
+    source_commit: "57ec275d8078af65b7731c2a98be812d844a6d6b"
+    source_base_url: "https://raw.githubusercontent.com/PolyAI-LDN/task-specific-datasets/57ec275d8078af65b7731c2a98be812d844a6d6b/banking_data"
+    expected_train: 10003
+    expected_test: 3080
+  trec:
+    train_url: "https://cogcomp.seas.upenn.edu/Data/QA/QC/train_5500.label"
+    test_url: "https://cogcomp.seas.upenn.edu/Data/QA/QC/TREC_10.label"
+    train_md5: "073462e3fcefaae31e00edb1f18d2d02"
+    test_md5: "323a3554401d86e650717e2d2f942589"
+    expected_train: 5452
+    expected_test: 500
+  validation_fraction: 0.10
+  split_seed: 42
+
+attacks:
+  families: [homoglyph, invisible, compatibility, composition, mixed]
+  strengths: [0.05, 0.10, 0.20, 0.40]
+  seeds: [13, 37, 73]
+  invisible_codepoints: ["200B", "200C", "200D", "2060", "FEFF"]
+
+defenses:
+  names: [nfc, nfkc, strip_ignorables, nfkc_strip, nfkc_strip_confusable]
+
+classical:
+  c_grid: [0.1, 1.0, 10.0]
+  max_iter: 3000
+  prediction_chunk_size: 20000
+
+transformer:
+  checkpoint: "distilbert/distilbert-base-uncased"
+  seeds: [13, 37, 73]
+  epochs: 3
+  learning_rate: 0.00002
+  max_length: 128
+  train_batch_size: 16
+  eval_batch_size: 128
+  weight_decay: 0.01
+  warmup_ratio: 0.10
+  prediction_chunk_size: 20000
+
+analysis:
+  bootstrap_resamples: 500
+  bootstrap_seed: 2026
+  primary_strength: 0.20

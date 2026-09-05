@@ -1,0 +1,45 @@
+\section{Experimental Method}
+
+\subsection{Datasets}
+
+BANKING77 contains 13,083 English banking queries across 77 fine-grained intents \citep{casanueva2020banking77}. TREC contains 5,952 questions; we use its six coarse classes: abbreviation, entity, description, human, location, and numeric value \citep{li2002trec}. Official test sets are retained. Ten percent of each official training set is selected with a fixed stratified split for validation.
+
+The final BANKING77 partitions contain 9,002 training, 1,001 validation, and 3,080 test examples. TREC contains 4,897 training, 545 validation, and 500 test examples after removing ten exact questions from the training side that also occur in the published test set. This preserves the official test set while preventing train--test text leakage. Stable example identifiers are assigned before attack generation. Dataset source revisions and cryptographic file hashes are stored with the artifacts; raw data are downloaded on demand and are not redistributed.
+
+\subsection{Models}
+
+The word system uses word unigrams and bigrams; the character system uses character 3--5-grams. The BPE system tokenizes with OpenAI's open-source \texttt{o200k\_base} encoding and uses token-ID unigrams and bigrams. Each representation is weighted by TF--IDF and passed to Logistic Regression. The regularization value $C\in\{0.1,1,10\}$ is selected by validation Macro-F1.
+
+No model strips accents or normalizes Unicode internally in the controlled comparison. Thus, preprocessing is evaluated explicitly as a defense rather than silently built into a feature extractor. The three classical systems use the same split, classifier family, random seed, and hyperparameter grid; all selected $C=10$. This does not make their feature spaces equal, but it isolates representation more closely than comparing unrelated classifiers.
+
+DistilBERT \citep{sanh2019distilbert} is fine-tuned separately on each dataset for three epochs and three random seeds. It uses a maximum sequence length of 128, learning rate $2\times10^{-5}$, and effective batch size 16. Validation Macro-F1 selects the checkpoint. Results are averaged across fine-tuning seeds.
+
+Fine-tuning seeds are 13, 37, and 73, with weight decay 0.01. Training and inference use Apple's MPS backend. The standard per-device batch is 16; the notebook contains a deterministic fallback to batch 8 with two-step gradient accumulation if memory is exhausted. No paid API or proprietary inference model is used.
+
+\subsection{Attacks}
+
+Each attack modifies a fraction $s\in\{.05,.10,.20,.40\}$ of eligible positions with three fixed attack seeds. Homoglyphs are restricted to a curated set of single-code-point Greek and Cyrillic lookalikes. Invisible attacks insert default-ignorable characters after alphanumeric positions. Compatibility attacks use characters whose NFKC form recovers the ASCII source. Composition attacks replace eligible precomposed characters with canonically equivalent decompositions. Mixed attacks sample an applicable transformation at each selected position.
+
+For a nonzero $s$, at least one change is made whenever an eligible position exists. Each output records the original and replacement code points, Unicode names, eligible-position count, and effective change count. Because canonical composition is uncommon in these English datasets, we report its dataset-wide result and its result restricted to eligible inputs.
+
+Every family is generated at attack seeds 13, 37, and 73, producing 214,800 attacked rows shared by all classifiers. Table~\ref{tab:coverage} shows that four families cover every test example and closely match the requested 20\% budget. Neither corpus contains a canonically decomposable test character under the declared rule, so composition has zero coverage: its full-test score equals the clean score and an eligible-subset estimate is undefined rather than treated as evidence of robustness.
+
+\begin{table*}[t]
+  \centering
+  \caption{Attack coverage at the primary 20\% strength. ``Changes'' is the mean number of effective code-point modifications per example.}
+  \IfFileExists{generated/attack_coverage.tex}{\input{generated/attack_coverage}}{\fbox{Run notebook 08 to generate this table.}}
+  \label{tab:coverage}
+\end{table*}
+
+\subsection{Defenses and Metrics}
+
+The five test-time wrappers are NFC, NFKC, removal of default-ignorable characters, NFKC followed by removal, and that combined pipeline followed by restricted confusable repair. Models are not retrained. Clean inputs pass through the same wrapper to expose collateral changes.
+
+We report accuracy, Macro-F1, and robustness drop. Attack success rate (ASR) is the fraction of examples correct when clean but incorrect after attack. For score $M$, defense recovery is
+\begin{equation}
+R=\frac{M_{\mathrm{def,att}}-M_{\mathrm{raw,att}}}
+        {M_{\mathrm{raw,clean}}-M_{\mathrm{raw,att}}}.
+\end{equation}
+It is not clipped, and is undefined for a nonpositive denominator. Results include variation across attack and model seeds and paired bootstrap intervals over example identifiers.
+
+Accuracy and Macro-F1 are computed for every dataset, model seed, attack family, strength, attack seed, and defense. Means and standard deviations summarize attack and fine-tuning seeds. Paired 95\% bootstrap intervals use 500 resamples of aligned example identifiers at the primary 20\% strength. This preserves the clean--attacked pairing when estimating score drops. For tokenization, normalized Levenshtein distance compares token-ID sequences, relative count change measures fragmentation, and multiset Jaccard overlap measures retained token content.

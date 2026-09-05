@@ -1,0 +1,7 @@
+dataset,model_seed,training_loss,validation_accuracy,validation_macro_f1,model_path,prediction_path
+banking77,13,2.0099361909783897,0.8541458541458542,0.8251713415767447,artifacts/models/transformer/banking77/seed_13/final,artifacts/predictions/raw/banking77/distilbert/seed_13/none.parquet
+banking77,37,2.0294550098986086,0.8701298701298701,0.8527875091978764,artifacts/models/transformer/banking77/seed_37/final,artifacts/predictions/raw/banking77/distilbert/seed_37/none.parquet
+banking77,73,2.0842559073647497,0.8691308691308691,0.8444977798974066,artifacts/models/transformer/banking77/seed_73/final,artifacts/predictions/raw/banking77/distilbert/seed_73/none.parquet
+trec,13,0.3842542443290984,0.9339449541284404,0.9201256057978748,artifacts/models/transformer/trec/seed_13/final,artifacts/predictions/raw/trec/distilbert/seed_13/none.parquet
+trec,37,0.372306450958749,0.9339449541284404,0.9168265074408845,artifacts/models/transformer/trec/seed_37/final,artifacts/predictions/raw/trec/distilbert/seed_37/none.parquet
+trec,73,0.3866607094432321,0.9302752293577982,0.9053491746403136,artifacts/models/transformer/trec/seed_73/final,artifacts/predictions/raw/trec/distilbert/seed_73/none.parquet

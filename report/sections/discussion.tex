@@ -1,0 +1,19 @@
+\section{Discussion and Limitations}
+
+The controlled comparison distinguishes representation effects, but it does not make the systems identical: vocabulary sizes and feature geometries differ, while DistilBERT additionally benefits from pretraining and nonlinear contextualization. Robustness should therefore be compared jointly with clean performance and computational cost.
+
+The clearest representation result is the relative stability of character 3--5-grams. A changed code point destroys only the $n$-grams that overlap its local neighborhood, while unchanged regions continue to contribute features. Word and BPE representations often replace an entire familiar unit with unseen or rare units. Character robustness is not immunity: its 40\% average drop reaches 0.253 on BANKING77 and 0.280 on TREC, and compatibility attacks remain particularly damaging.
+
+DistilBERT demonstrates that a pretrained Transformer is not uniformly robust. Its WordPiece pipeline happens to ignore the selected invisible controls, yet compatibility and homoglyph attacks cause severe fragmentation and failure. This family dependence would be obscured by one aggregate Unicode-robustness score. It also explains why defense selection should follow the threat model: NFKC is appropriate for compatibility variants, control removal for default-ignorables, and confusable repair only when the application can justify an English/ASCII assumption.
+
+The attacks approximate visual equivalence through curated mappings and Unicode properties; they do not constitute a human perceptual study. Glyph similarity varies across fonts and platforms. The compatibility attack can produce width or style changes that are noticeable, and the composition attack has low natural coverage in mostly ASCII English text. We publish attack coverage and code-point logs rather than treating every nominal condition as equally effective.
+
+The zero composition coverage is itself an important boundary condition. The study cannot estimate robustness to canonical decomposition on these particular test sets, so the unchanged full-test score must not be reported as a successful defense or robust model. A corpus containing accented Latin text would be needed for that comparison.
+
+The confusable defense is intentionally restricted to English and ASCII targets. Applying it to multilingual input could destroy legitimate distinctions. NFKC likewise folds compatibility distinctions that may carry meaning in other domains. Clean-score deltas are therefore part of the primary evaluation rather than an afterthought.
+
+Finally, repeated attacks on the same test instances create dependent observations. Seed variation and clustered or paired uncertainty estimates reduce, but do not remove, the limits of drawing broad conclusions from two short-text English datasets. Future work could add multilingual corpora, human similarity judgments, font-aware attacks, and adversarial training.
+
+\section{Conclusion}
+
+This project provides a reproducible test bed for studying how Unicode encoding choices propagate through word, character, BPE, and WordPiece representations. Performance falls monotonically as effective perturbation increases; character $n$-grams are the strongest lightweight representation; token-sequence disruption is strongly associated with BPE and WordPiece failures; and targeted normalization can recover performance without clean harm on these ASCII-heavy datasets. The perfect full-repair result is a closed-whitelist finding, not evidence for a universal normalizer. Together, gradual budgets, shared perturbed inputs, low-cost defenses, and tokenization diagnostics explain not only whether a classifier fails, but also how the representation contributes to that failure.
