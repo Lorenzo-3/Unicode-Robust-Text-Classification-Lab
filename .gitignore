@@ -4,6 +4,8 @@
 __pycache__/
 .pytest_cache/
 .cache/
+.env.local
+artifacts/jev/
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
@@ -27,4 +29,4 @@ report/main.run.xml
 report/main.synctex.gz
 report/main.toc
 output/pdf/*.png
-
+/private/

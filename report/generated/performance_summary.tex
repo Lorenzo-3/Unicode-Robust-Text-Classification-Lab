@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\tabhead Model & Clean acc. & Clean F1 & Attacked F1 & F1 loss & ASR \\
+\midrule
+\multicolumn{6}{l}{\textbf{BANKING77}} \\
+Word TF-IDF & 0.885 & 0.886 & 0.466 & 0.420 & 49.0\% \\
+Character TF-IDF & 0.906 & 0.906 & 0.807 & 0.099 & 12.5\% \\
+BPE TF-IDF & 0.882 & 0.882 & 0.496 & 0.386 & 45.3\% \\
+DistilBERT & 0.832 & 0.819 & 0.498 & 0.321 & 40.8\% \\
+\addlinespace[5pt]
+\multicolumn{6}{l}{\textbf{TREC}} \\
+Word TF-IDF & 0.888 & 0.885 & 0.537 & 0.347 & 38.6\% \\
+Character TF-IDF & 0.888 & 0.883 & 0.759 & 0.124 & 17.9\% \\
+BPE TF-IDF & 0.890 & 0.879 & 0.447 & 0.432 & 45.4\% \\
+DistilBERT & 0.967 & 0.944 & 0.701 & 0.243 & 27.4\% \\
+\bottomrule
+\end{tabular}

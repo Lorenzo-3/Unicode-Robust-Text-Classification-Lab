@@ -1,60 +1,88 @@
-\section{Classification Robustness}
+\subsection{Results}
+To keep the presentation clear, tables and plots show mean scores without standard-deviation annotations.
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[width=\linewidth]{attack_family_comparison.pdf}
+\captionof{figure}{Macro-F1 loss at 20\% strength, without defenses (larger is worse). Mixed is not always the hardest attack: on BANKING77, DistilBERT loses 62.0 points to compatibility changes, 21.2 to mixed attacks and none to invisible controls. Composition is omitted because it changes no inputs.}
+\label{fig:attack-family-comparison}
+\end{minipage}
+\end{center}
 
-\subsection{Clean Performance}
+\minisection{Clean accuracy does not settle the robustness comparison}
+Character TF--IDF has the strongest clean BANKING77 score, while DistilBERT leads on TREC. At the main 20\% strength setting, character features retain the highest average Macro-F1 on both datasets (Table~\ref{tab:performance}). Their attack-success rates are also the lowest: fewer initially correct predictions are overturned.
 
-Table~\ref{tab:clean} establishes the utility baseline. Character TF--IDF is strongest on the fine-grained BANKING77 task (0.906 Macro-F1), 0.020 above the word model and 0.024 above BPE features. DistilBERT reaches only $0.819\pm0.004$ on this split despite fine-tuning, illustrating why it is treated as an external reference rather than an assumed upper bound. On coarse TREC, DistilBERT is strongest at $0.944\pm0.009$; the three classical systems cluster between 0.879 and 0.885. Clean performance alone therefore does not predict the most useful model for both datasets.
-
-\begin{table*}[t]
-  \centering
-  \caption{Clean test performance. Transformer rows summarize three fine-tuning seeds.}
-  \IfFileExists{generated/clean_performance.tex}{\input{generated/clean_performance}}{\fbox{Run notebook 08 to generate this table.}}
-  \label{tab:clean}
+\begin{table*}[!tbp]
+\centering\small
+\caption{Clean and attacked test performance. Attacked F1, loss and ASR average the four effective families at 20\%.}
+\input{generated/performance_summary}
+\label{tab:performance}
 \end{table*}
 
-\subsection{Degradation with Strength}
-
-Figure~\ref{fig:robustness} shows monotonic degradation for every broadly applicable family. Averaging homoglyph, invisible, compatibility, and mixed attacks, BANKING77 word Macro-F1 falls from 0.780 at 5\% strength to 0.205 at 40\%; BPE falls from 0.789 to 0.231. Character features degrade more gradually, from 0.886 to 0.653. DistilBERT lies between these regimes, moving from 0.711 to 0.359. The same ordering is visible on TREC: at 40\%, character TF--IDF retains 0.603 Macro-F1 and DistilBERT 0.545, compared with 0.319 for word and 0.249 for BPE features.
-
-The largest broadly applicable mean drop is 0.767: BANKING77 DistilBERT under the 40\% compatibility attack.
-
-Table~\ref{tab:primary} summarizes the primary 20\% setting. Character TF--IDF has the smallest average drop on both datasets (0.099 on BANKING77 and 0.124 on TREC), whereas BPE and word features lose 0.35--0.43 Macro-F1. DistilBERT is more robust than BPE on TREC but not uniformly on BANKING77. The attack-success rates lead to the same conclusion: character features fail on 12.5\% and 17.9\% of clean-correct BANKING77 and TREC examples, respectively, while the word model reaches 49.0\% and 38.6\%.
-
-\begin{table*}[t]
+\begin{figure}[H]
   \centering
-  \caption{Raw performance at 20\%, averaged over the four broadly applicable attack families and attack/model seeds. Drop is clean minus attacked Macro-F1; ASR conditions on clean-correct examples.}
-  \IfFileExists{generated/primary_robustness.tex}{\input{generated/primary_robustness}}{\fbox{Run notebook 08 to generate this table.}}
-  \label{tab:primary}
-\end{table*}
-
-\subsection{Attack-Family Effects}
-
-Compatibility characters are the most damaging individual family at 20\% for most systems. On BANKING77 they reduce DistilBERT from 0.819 to 0.199 Macro-F1 (ASR 0.777), BPE to 0.410, word features to 0.381, and character features to 0.760. Homoglyphs are also severe, especially for DistilBERT (0.367) and word features (0.574). Invisible characters expose an architectural contrast: they leave DistilBERT predictions unchanged on both datasets because its preprocessing discards the selected controls, but reduce BANKING77 word and BPE Macro-F1 to 0.468 and 0.496. Character $n$-grams remain local enough to retain 0.830.
-
-The mixed attack does not simply equal the worst family because each selected position samples among applicable transformations. At 20\%, its BANKING77 drops are 0.444 (word), 0.411 (BPE), 0.212 (DistilBERT), and 0.095 (character). For one representative attack seed, paired 95\% Macro-F1-drop intervals are [0.424, 0.461] for word, [0.395, 0.431] for BPE, [0.082, 0.106] for character, and [0.188, 0.218] for DistilBERT seed 13. On the smaller TREC test set the corresponding intervals are wider, as expected.
-
-\begin{figure*}[t]
-  \centering
-  \IfFileExists{../artifacts/figures/robustness_curves.pdf}{\includegraphics[width=\textwidth]{robustness_curves.pdf}}{\fbox{Run notebook 08 to generate robustness curves.}}
-  \caption{Macro-F1 under increasing perturbation strength. Lines aggregate attack and model seeds; shaded intervals show uncertainty.}
-  \label{fig:robustness}
-\end{figure*}
-
-\subsection{Defense Recovery}
-
-The deterministic defenses behave selectively. NFKC reverses compatibility forms but does not repair cross-script homoglyphs or remove controls; ignorable removal reverses the selected invisible insertions but cannot repair compatibility forms. Their combination therefore recovers more broadly: at 20\%, mean Macro-F1 recovery ranges from 0.52 to 0.72 across datasets and models (Table~\ref{tab:defenses}). For example, BANKING77 word Macro-F1 rises from 0.466 raw to 0.796 after NFKC plus ignorable removal, while character features rise from 0.807 to 0.884.
-
-Adding the English-specific confusable map restores the clean score for every generated broad family, giving recovery 1.0 in this closed threat model. This perfect result should not be generalized beyond the experiment: the attack and defense share a deliberately restricted reversible whitelist, clean inputs are almost entirely ASCII, and unseen or context-dependent confusables may not be repaired. The clean Macro-F1 delta is 0.000 for every wrapper on both test sets, but a multilingual or symbol-sensitive corpus could show harm.
-
-\begin{table*}[t]
-  \centering
-  \caption{Macro-F1 at 20\%, averaged over four broad families. $R$ is recovery for NFKC plus ignorable removal. ``Full repair'' additionally maps restricted non-ASCII confusables to ASCII.}
-  \IfFileExists{generated/primary_defenses.tex}{\input{generated/primary_defenses}}{\fbox{Run notebook 08 to generate this table.}}
-  \label{tab:defenses}
-\end{table*}
-
-\begin{figure}[t]
-  \centering
-  \IfFileExists{../artifacts/figures/defense_recovery.pdf}{\includegraphics[width=\columnwidth]{defense_recovery.pdf}}{\fbox{Defense figure pending.}}
-  \caption{Defense recovery at the primary 20\% perturbation strength.}
-  \label{fig:defense}
+  \includegraphics[width=\linewidth]{performance_overview.pdf}
+  \caption{The main result at a glance. Filled points show averaged Macro-F1 at 20\% perturbation, hollow points show clean performance.}
+  \label{fig:overview}
+  \vspace{1 mm}
 \end{figure}
+
+
+
+\minisection{Performance across the full attack-strength range}
+Figure~\ref{fig:robustness} follows all measured strengths. Mean Macro-F1 decreases and attack success rises as more eligible positions are changed. Character features lead on BANKING77 throughout. On TREC, DistilBERT leads at 5\% (0.865 versus 0.853); character features lead from 10\% to 40\%, but DistilBERT leads again at 75\% (0.411 versus 0.337). All four models are evaluated through 75\%.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{attack_strength_overview.pdf}
+\caption{Macro-F1 (higher is better) and attack success rate (lower is better), averaged equally across four effective families. Zero denotes clean text; the dotted line marks 20\%.}
+\label{fig:robustness}
+\end{figure}
+
+\minisection{What remains at 40\% and 75\%?}
+The stronger attacks reveal substantial losses even for the most robust representation (Figure~\ref{fig:strong-attacks}).
+\input{generated/strength_narrative}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{strong_attack_comparison.pdf}
+\caption{Mean Macro-F1 at 20\%, 40\% and 75\%, using the same four-family average.}
+\label{fig:strong-attacks}
+\end{figure}
+
+\minisection{The attack family changes the trajectory}
+The family breakdown in Figure~\ref{fig:families} explains why the mean alone is incomplete. DistilBERT stays at its clean score under the tested invisible controls through 75\%, while its BANKING77 Macro-F1 heavily suffers under compatibility substitutions . Its preprocessing discards the tested invisible characters. Character features also degrade: compatibility substitutions give them the lowest 75\% score on both datasets. Mixed attacks sample applicable transformations and as such will not necessarily perform like the worst single family.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{attack_strength_by_family.pdf}
+\caption{Macro-F1 by attack family and dataset across all available strengths. Each curve begins at its clean score. Composition is omitted because it changes no test inputs. All four models cover the full range through 75\%.}
+\label{fig:families}
+\end{figure}
+
+\Needspace{0.7\textheight}
+\minisection{How much of the lost score is recovered?}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{defense_recovery.pdf}
+\caption{Macro-F1 before and after repair, averaged across the four effective families at 20\%. Full repair nearly reaches the clean baseline; its map covers the restricted attack whitelist.}
+\label{fig:defense}
+\end{figure}
+
+
+\begin{table*}[!tbp]
+\centering\small
+\caption{Mean defense recovery at 20\% strength, shown as \(100R\): 72.31 means 72.31\% of the lost score recovered on the equal-family average. Each classical row averages four defined family ratios. DistilBERT averages three, excluding invisible attacks because their raw score loss is zero. Rounded 100.00 values need not imply exact recovery.}
+\input{generated/primary_defenses}
+\label{tab:defense-recovery}
+\end{table*}
+
+Combining NFKC and control removal improves classical recovery because they repair different families. DistilBERT already discards the tested controls, so removal adds nothing. Its combined recovery is 54.42\% on BANKING77 and 51.97\% on TREC over three attack families (not the homoglyph).
+
+\minisection{A worked recovery calculation}
+\label{sec:recovery-example}
+For BANKING77 word TF--IDF under the 20\% mixed attack, clean Macro-F1 is 0.885686, raw attacked Macro-F1 is 0.441687, and NFKC plus removal raises it to 0.837951. Applying Equation~\ref{eq:recovery} gives:
+\input{generated/recovery_example}
+The defense recovers 89.2\% of this loss. Its four-family mean is 72.31\%: compatibility and invisible attacks are fully repaired, while homoglyphs are not. Calculating \(R\) from cross-family average scores would weight families by their initial loss; the table instead averages their recovery ratios equally.
+ Near-complete recovery is measured on this restricted attack set.

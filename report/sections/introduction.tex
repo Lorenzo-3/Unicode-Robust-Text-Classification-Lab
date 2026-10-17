@@ -1,17 +1,22 @@
-\section{Introduction}
+\section{Task description/Problem statement}
 
-Text classification is commonly formulated as a mapping $f(x)=y$ from a Unicode string $x$ to a discrete label $y$. For an intent detector, ``How can I reset my PIN?'' should map to a password or PIN-related intent. A user can, however, replace Latin \texttt{a} (U+0061) with Cyrillic small letter a (U+0430), insert a zero-width character, use a compatibility form, or change canonical composition. The rendered utterance can remain indistinguishable or nearly indistinguishable while the classifier receives a different sequence of code points.
+To an average reader, Latin \texttt{a} and its Cyrillic lookalike will appear identical. To a machine learning classifier, their code points U+0061 and U+0430 are different inputs. Invisible characters create the same problem without replacing a visible letter. A familiar word can lose its vocabulary entry or split into unusual subword tokens even when its meaning remains easy to recognize to a human reader.
 
-This is a practical concern for intent classification, spam and phishing filters, content moderation, and other systems exposed to untrusted text. It is also a useful scientific setting: word, character, and subword representations transform the same perturbation in different ways. A word vocabulary may turn one modified character into an out-of-vocabulary token; character $n$-grams may lose only local features; and byte-pair or WordPiece tokenizers may fragment one familiar word into several uncommon tokens.
+I studied how this mismatch affects short-text classification and whether inexpensive preprocessing can repair it. The central comparison uses the same Logistic Regression approach and changes its representation: word, character or BPE TF--IDF. DistilBERT adds a contextual, pretrained comparison. Every system receives the same perturbed examples.
 
-We address four questions:
-\begin{enumerate}
-  \item How does classification degrade as the perturbation rate increases?
-  \item Are word-, character-, BPE-, and Transformer-based systems affected differently?
-  \item Are subword tokenization changes associated with attack success?
-  \item Can lightweight Unicode preprocessing recover attacked performance without harming clean inputs?
-\end{enumerate}
 
-The central comparison holds the downstream classical classifier fixed: three TF--IDF representations feed Logistic Regression. DistilBERT is included as a modern pretrained reference rather than as a controlled representation-only comparison. All models receive exactly the same attacked examples.
 
-The contribution is a reproducible experiment rather than a new attack algorithm. It combines (i) a shared, auditable attack corpus with gradual budgets and three attack seeds; (ii) a controlled comparison of word, character, and BPE features; (iii) a pretrained Transformer reference with three fine-tuning seeds; (iv) deployment-style defenses applied to both clean and attacked inputs; and (v) paired uncertainty and tokenization diagnostics. This design makes it possible to distinguish an attack's nominal strength from its effective coverage and to ask whether a defense restores performance at the cost of changing legitimate clean text.
+
+The analysis follows three questions: how quickly performance falls as the attack budget grows, which transformations cause the largest failures, and how much of the lost performance input repair can recover.
+
+The task is to assign one label to a short input text: a banking intent for BANKING77 or an answer type for TREC. After a Unicode attack, the expected label stays the same. I check whether the classifier still predicts it and whether simple input repair helps.
+
+\subsection{Examples}
+These are two real inputs from the test sets:
+\begin{itemize}
+\item BANKING77: ``How do I locate my card?'' $\rightarrow$ \texttt{card\_arrival}.
+\item TREC: ``How far is it from Denver to Aspen ?'' $\rightarrow$ \texttt{NUM}, a numerical answer.
+\end{itemize}
+
+\subsection{Real-world applications}
+Intent classification can route a banking request to the right support flow. Question classification can guide a question-answering system toward a person, place, number or another answer type. Unicode changes can also matter in content moderation, where text may be deliberately obfuscated. I focus on the first two tasks here; they let me compare robustness without changing the intended meaning of an example.

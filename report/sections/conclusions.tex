@@ -1,0 +1,5 @@
+\section{Conclusions}
+
+I started this project to understand how changes that look minor or are invisible to a reader (like in the alt version of this report) can affect text classification. The experiments show that this is a practical weakness even for models that perform well on ordinary text. Character features offer a useful, simple baseline, and targeted preprocessing can recover much of the lost performance. Neither removes the need to test unfamiliar inputs.
+
+Jev's stability is encouraging, but the limited visibility into its training and API leaves the explanation open. My main conclusion is that robustness should be evaluated across the whole system, including preprocessing, and across different kinds of changes. Before relying on a defense, I would also check that it preserves correct predictions on clean text and does not remove distinctions that matter for the task or language.

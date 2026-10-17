@@ -1,0 +1,5 @@
+\section{State-of-the-art evaluation}
+\label{sec:literature-evaluation}
+The relevant papers evaluate different tasks and attack settings, so their results do not form one directly comparable ranking. Eger et al.~\cite{eger2019visual} compare task performance before and after visual substitutions and test shielding at increasing perturbation levels. Boucher et al.~\cite{boucher2022bad} use black-box attacks across several NLP applications and examine how a small number of encoding changes affects the output. Cooper et al.~\cite{cooper2025lies} evaluate both text normalization and downstream hate-speech classification after repair.
+
+For clean intent detection, Casanueva et al.~\cite{casanueva2020banking77} report accuracy with limited examples per intent and with the full training set. That answers a different question from robustness to Unicode changes. My comparison uses fixed attacked test sets, accuracy and Macro-F1, clean-to-attacked loss, attack success and defense recovery.

@@ -1,5 +1,0 @@
-model,term,coefficient,standard_error,p_value,odds_ratio,odds_ratio_ci_low,odds_ratio_ci_high,n,formula
-bpe_tfidf,z_edit,0.9693528246377192,0.034568167951562354,5.03223505661111e-173,2.636237799006825,2.463542760422684,2.821038808240513,151776,failure ~ z_edit + z_count_change + C(dataset) + C(attack) + C(strength)
-bpe_tfidf,z_count_change,0.22414522881231724,0.02611467450675684,9.233875164150061e-18,1.2512527241807017,1.1888202244296147,1.3169639509798918,151776,failure ~ z_edit + z_count_change + C(dataset) + C(attack) + C(strength)
-distilbert,z_edit,1.2826059036398032,0.03348938560912454,0.0,3.606024444647245,3.3769330434600824,3.850657424368083,438528,failure ~ z_edit + z_count_change + C(dataset) + C(attack) + C(strength) + C(model_seed)
-distilbert,z_count_change,-0.06198867426031605,0.018157945612642504,0.0006404960751805823,0.9398935317202789,0.9070319588646446,0.9739456722951563,438528,failure ~ z_edit + z_count_change + C(dataset) + C(attack) + C(strength) + C(model_seed)

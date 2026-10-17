@@ -1,0 +1,19 @@
+\subsection{Extra comparison with Jev}
+\label{sec:jev}
+As I was working on the previous part of this homework, I was looking at the eventual comparison I could make with a ``frontier'' model. The initial idea was to use an LLM through an API, but in those days conveniently the hype for Jev exploded, a ``new'' (not really new) paradigm which uses a System One architecture: it returns typed decisions and probabilities \cite{almeida2026jev}. Earlier related work includes the March 2025 SalesRLAgent paper on reinforcement learning for sales-conversion probabilities \cite{nandakishor2025salesrlagent}, by the author who later developed Laya, which has public weights \cite{laya2026weights}.
+
+I conducted an additional zero-shot comparison using Jev's hosted classification API. Notebook 07 pins \texttt{jev-1.13.0} and asks one fixed \emph{Choice} question per input \cite{typesafe2026api,typesafe2026models}. BANKING77 supplies all 77 intent names with readable descriptions; TREC supplies six answer-type descriptions. The input text and question go to the API while the ground truth (gt) label stays local for evaluation.
+
+The test covers all 3,080 BANKING77 and 500 TREC examples, clean and under four working attack families at 5\%, 10\%, 20\%, 40\% and 75\% strength. Each attack family has equal weight in Table~\ref{tab:jev}; Figure~\ref{fig:jev} shows them separately.
+
+\input{generated/jev_comparison}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{jev_robustness.pdf}
+\caption{Jev's Macro-F1 by attack family and their equal-weight mean (black dashed). Both panels start at clean text and use different vertical ranges to show the small changes.}
+\label{fig:jev}
+\end{figure}
+
+\input{generated/jev_narrative}
+
+This is to be considered an exploratory comparison of a new system with different training and capacity. As much as the robustness of Jev in this study may look phenomenal compared to the more classical approaches, we can't be absolutely confident in it because of the lacking knowledge we have regarding the training data used for the model and all the surrounding infrastructure around the API. An explanation for these performances is that there could be normalization methods applied to the input similar to the defenses used in this study.

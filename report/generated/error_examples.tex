@@ -1,15 +1,28 @@
-\begin{table*}[t]
-\centering
-\scriptsize
-\caption{Rule-selected examples; non-ASCII and invisible code points are shown explicitly.}
-\begin{tabularx}{\textwidth}{@{}llllX@{}}
+\begin{table*}[!tbp]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}L{1.05in}Y@{}}
 \toprule
-Case & Dataset & Model & Attack & Auditable text \\
+\tabhead \multicolumn{2}{l}{\textbf{Failure and recovery} / homoglyph / 5 edits} \\
 \midrule
-Successful attack & BANKING77 & Word TF-IDF & homoglyph & clean: There is a suspicious direct debit payment.; attacked: T[U+04BB]ere is a suspi[U+0441][U+0456]ous dire[U+0441]t deb[U+0456]t payment. \\
-Recovered by defense & BANKING77 & Word TF-IDF & homoglyph & clean: There is a suspicious direct debit payment.; attacked: T[U+04BB]ere is a suspi[U+0441][U+0456]ous dire[U+0441]t deb[U+0456]t payment. \\
-Prediction resisted & BANKING77 & Word TF-IDF & invisible & clean: Do you offer Visa or Mastercard?; attacked: Do yo[U+200B]u of[U+200B]fer Vi[U+200D]s[U+2060]a or Mastercar[U+200B]d? \\
+Clean text & There is a suspicious direct debit payment. \\
+Code-point audit & \texttt{T[U+04BB]ere is a suspi[U+0441][U+0456]ous dire[U+0441]t deb[U+0456]t payment.} \\
+gt-probability & Clean 0.999 $\rightarrow$ attacked 0.001 $\rightarrow$ repaired 0.999 \\
 \bottomrule
 \end{tabularx}
-\label{tab:errors}
+\caption{BANKING77, Word TF-IDF, 20\% strength, attack seed 13.}
+\label{tab:example1}
+\end{table*}
+\begin{table*}[!tbp]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}L{1.05in}Y@{}}
+\toprule
+\tabhead \multicolumn{2}{l}{\textbf{Prediction retained} / invisible / 5 edits} \\
+\midrule
+Clean text & Do you offer Visa or Mastercard? \\
+Code-point audit & \texttt{Do yo[U+200B]u of[U+200B]fer Vi[U+200D]s[U+2060]a or Mastercar[U+200B]d?} \\
+gt-probability & Clean 0.998 $\rightarrow$ attacked 0.042 $\rightarrow$ repaired 0.998 \\
+\bottomrule
+\end{tabularx}
+\caption{BANKING77, Word TF-IDF, 20\% strength, attack seed 13.}
+\label{tab:example2}
 \end{table*}

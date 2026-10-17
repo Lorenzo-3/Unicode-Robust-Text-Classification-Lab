@@ -1,14 +1,17 @@
 \begin{tabular}{llrrr}
 \toprule
-Dataset & Model & Macro-F1 & Drop & ASR \\
+\tabhead Dataset & Model & Macro-F1 & Loss & ASR \\
 \midrule
-BANKING77 & o200k BPE TF-IDF & 0.496 & 0.386 & 0.453 \\
-BANKING77 & Character TF-IDF & 0.807 & 0.099 & 0.125 \\
-BANKING77 & DistilBERT & 0.498 & 0.321 & 0.408 \\
-BANKING77 & Word TF-IDF & 0.466 & 0.420 & 0.490 \\
-TREC & o200k BPE TF-IDF & 0.447 & 0.432 & 0.454 \\
-TREC & Character TF-IDF & 0.759 & 0.124 & 0.179 \\
-TREC & DistilBERT & 0.701 & 0.243 & 0.274 \\
-TREC & Word TF-IDF & 0.537 & 0.347 & 0.386 \\
+\multicolumn{5}{l}{\textbf{BANKING77}} \\
+ & Word TF-IDF & 0.466 & 0.420 & 0.490 \\
+ & Character TF-IDF & 0.807 & 0.099 & 0.125 \\
+ & BPE TF-IDF & 0.496 & 0.386 & 0.453 \\
+ & DistilBERT & 0.498 & 0.321 & 0.408 \\
+\addlinespace[5pt]
+\multicolumn{5}{l}{\textbf{TREC}} \\
+ & Word TF-IDF & 0.537 & 0.347 & 0.386 \\
+ & Character TF-IDF & 0.759 & 0.124 & 0.179 \\
+ & BPE TF-IDF & 0.447 & 0.432 & 0.454 \\
+ & DistilBERT & 0.701 & 0.243 & 0.274 \\
 \bottomrule
 \end{tabular}

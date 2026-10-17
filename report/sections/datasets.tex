@@ -1,0 +1,22 @@
+\section{Datasets and benchmarks}
+BANKING77 tests fine-grained banking intent detection \cite{casanueva2020banking77}; TREC tests six coarse question categories \cite{li2002trec}. I retained both official test sets and removed training texts also present in the test set, then reserved 10\% of the remaining training data for stratified validation (split seed 42).
+
+\begin{center}
+\begin{minipage}{\linewidth}
+\centering\small\setlength{\tabcolsep}{3pt}
+\captionof{table}{Data partitions.}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+\tabhead Dataset & Classes & Train & Valid. & Test \\
+\midrule
+BANKING77 & 77 & 9,002 & 1,001 & 3,080 \\
+TREC & 6 & 4,897 & 545 & 500 \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\end{center}
+
+
+The \href{https://github.com/PolyAI-LDN/task-specific-datasets}{BANKING77 release} contains 10,003 training queries and 3,080 test queries across 77 intents. The \href{https://cogcomp.seas.upenn.edu/Data/QA/QC/}{TREC question-classification release} provides training and test questions with coarse and fine labels; I use only its six coarse categories. BANKING77 tests distinctions within one domain, while TREC tests broader answer types. Both are short English texts, so this comparison does not cover long documents or multilingual input.
+
+For a related robustness dataset, Cooper et al.~\cite{cooper2025lies} augmented 29,846 tweets with homoglyph substitutions observed in social media. Their setting is closer to obfuscated moderation inputs. Here I generate attacks on the two existing classification test sets, keeping each clean example and its ground truth (gt) label for paired evaluation.

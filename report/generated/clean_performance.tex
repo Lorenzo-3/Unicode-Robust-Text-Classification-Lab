@@ -1,14 +1,17 @@
-\begin{tabular}{llcc}
+\begin{tabular}{llrr}
 \toprule
-Dataset & Model & Accuracy & Macro-F1 \\
+\tabhead Dataset & Model & Accuracy & Macro-F1 \\
 \midrule
-BANKING77 & o200k BPE TF-IDF & 0.882 & 0.882 \\
-BANKING77 & Character TF-IDF & 0.906 & 0.906 \\
-BANKING77 & DistilBERT & 0.832 $\pm$ 0.003 & 0.819 $\pm$ 0.004 \\
-BANKING77 & Word TF-IDF & 0.885 & 0.886 \\
-TREC & o200k BPE TF-IDF & 0.890 & 0.879 \\
-TREC & Character TF-IDF & 0.888 & 0.883 \\
-TREC & DistilBERT & 0.967 $\pm$ 0.003 & 0.944 $\pm$ 0.009 \\
-TREC & Word TF-IDF & 0.888 & 0.885 \\
+\multicolumn{4}{l}{\textbf{BANKING77}} \\
+ & Word TF-IDF & 0.885 & 0.886 \\
+ & Character TF-IDF & 0.906 & 0.906 \\
+ & BPE TF-IDF & 0.882 & 0.882 \\
+ & DistilBERT & 0.832 & 0.819 \\
+\addlinespace[5pt]
+\multicolumn{4}{l}{\textbf{TREC}} \\
+ & Word TF-IDF & 0.888 & 0.885 \\
+ & Character TF-IDF & 0.888 & 0.883 \\
+ & BPE TF-IDF & 0.890 & 0.879 \\
+ & DistilBERT & 0.967 & 0.944 \\
 \bottomrule
 \end{tabular}

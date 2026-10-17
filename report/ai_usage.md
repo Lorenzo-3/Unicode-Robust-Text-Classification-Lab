@@ -1,6 +1,3 @@
-# Living GenAI usage disclosure
+# Use of GenAI and LLM tools
 
-ChatGPT and Codex were used to brainstorm and refine the project design; locate and cross-check primary literature, dataset cards, Unicode standards, and software documentation; scaffold and review the Jupyter notebooks and LaTeX report; assist with debugging, plotting, statistical checks, and proofreading; and help document reproducibility steps. No paid model API is part of the experiment. The student remains responsible for running the experiments, checking citations against primary sources, inspecting generated examples and results, evaluating whether interpretations are supported, and approving the final submitted report and code.
-
-This file should be updated if the actual use changes before submission.
-
+I used ChatGPT and Codex to brainstorm and refine the project design, locate and cross-check relevant literature and documentation, scaffold, draft initial versions and review notebooks, assist with debugging and statistical checks and writing tests, assist with reproducibility and seeding of the experiments, implement the extra jev study using the previous made code and the agent skill published by typesafeAI for the use of their API, revise the report's prose and nightmarish latex figures and table placement. The main controlled experiments use local classifiers. The Jev comparison uses separate calls to a paid hosted classification API. I remain responsible for running the experiments, verifying sources and results, and approving the submitted report and code.

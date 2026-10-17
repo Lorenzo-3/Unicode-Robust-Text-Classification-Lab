@@ -1,0 +1,97 @@
+\begin{thebibliography}{10}
+
+\bibitem{eger2019visual}
+Steffen Eger, G{\"o}zde~G{\"u}l {\c{S}}ahin, Andreas R{\"u}ckl{\'e}, Ji-Ung
+  Lee, Claudia Schulz, Mohsen Mesgar, Krishnkant Swarnkar, Edwin Simpson, and
+  Iryna Gurevych.
+\newblock Text processing like humans do: Visually attacking and shielding
+  {NLP} systems.
+\newblock In {\em Proceedings of NAACL-HLT}, pages 1634--1647, 2019.
+\newblock \url{https://aclanthology.org/N19-1165/}.
+
+\bibitem{boucher2022bad}
+Nicholas Boucher, Ilia Shumailov, Ross Anderson, and Nicolas Papernot.
+\newblock Bad characters: Imperceptible {NLP} attacks.
+\newblock In {\em 2022 IEEE Symposium on Security and Privacy}, pages
+  1987--2004, 2022.
+\newblock \url{https://arxiv.org/abs/2106.09898}.
+
+\bibitem{geh2025adversarial}
+Renato Geh, Zilei Shao, and Guy {Van Den Broeck}.
+\newblock Adversarial tokenization.
+\newblock In {\em Proceedings of the 63rd Annual Meeting of the Association for
+  Computational Linguistics (Volume 1: Long Papers)}, pages 20738--20765, 2025.
+\newblock \url{https://aclanthology.org/2025.acl-long.1012/}.
+
+\bibitem{cooper2025lies}
+Portia Cooper, Eduardo Blanco, and Mihai Surdeanu.
+\newblock The lies characters tell: Utilizing large language models to
+  normalize adversarial {Unicode} perturbations.
+\newblock In {\em Findings of ACL}, pages 18932--18944, 2025.
+\newblock \url{https://aclanthology.org/2025.findings-acl.969/}.
+
+\bibitem{casanueva2020banking77}
+I{\~n}igo Casanueva, Tadas Tem{\v{c}}inas, Daniela Gerz, Matthew Henderson, and
+  Ivan Vuli{\'c}.
+\newblock Efficient intent detection with dual sentence encoders.
+\newblock In {\em Proceedings of the 2nd Workshop on {NLP} for Conversational
+  AI}, pages 38--45, 2020.
+\newblock \url{https://aclanthology.org/2020.nlp4convai-1.5/}.
+
+\bibitem{li2002trec}
+Xin Li and Dan Roth.
+\newblock Learning question classifiers.
+\newblock In {\em COLING 2002: The 19th International Conference on
+  Computational Linguistics}, 2002.
+\newblock \url{https://aclanthology.org/C02-1150/}.
+
+\bibitem{sanh2019distilbert}
+Victor Sanh, Lysandre Debut, Julien Chaumond, and Thomas Wolf.
+\newblock {DistilBERT}, a distilled version of {BERT}: Smaller, faster, cheaper
+  and lighter.
+\newblock {\em arXiv preprint arXiv:1910.01108}, 2019.
+\newblock \url{https://arxiv.org/abs/1910.01108}.
+
+\bibitem{unicode15}
+{Unicode Consortium}.
+\newblock Unicode standard annex \#15: {Unicode} normalization forms, 2026.
+\newblock \url{https://unicode.org/reports/tr15/tr15-58.html}.
+
+\bibitem{unicode39}
+{Unicode Consortium}.
+\newblock Unicode technical standard \#39: {Unicode} security mechanisms, 2026.
+\newblock \url{https://unicode.org/reports/tr39/tr39-34.html}.
+
+\bibitem{almeida2026jev}
+Diogo Almeida.
+\newblock Introducing {System One} models \& {Jev}, September 2026.
+\newblock TypeSafe AI, 15 September 2026.
+  \href{https://typesafe.ai/blog/introducing-system-one-models-and-jev}{Provider
+  announcement}.
+
+\bibitem{nandakishor2025salesrlagent}
+{Nandakishor M}.
+\newblock {SalesRLAgent}: A reinforcement learning approach for real-time sales
+  conversion prediction and optimization.
+\newblock {\em arXiv preprint arXiv:2503.23303}, 2025.
+\newblock Submitted 30 March 2025. \url{https://arxiv.org/abs/2503.23303}.
+
+\bibitem{laya2026weights}
+{Convai Innovations}.
+\newblock {Laya}: Public model weights and model card, 2026.
+\newblock Accessed 2 October 2026.
+  \url{https://huggingface.co/convaiinnovations/laya}.
+
+\bibitem{typesafe2026api}
+{TypeSafe AI}.
+\newblock {System One} {HTTP} {API} reference, 2026.
+\newblock Provider documentation, accessed 30 September 2026.
+  \url{https://docs.typesafe.ai/api}.
+
+\bibitem{typesafe2026models}
+{TypeSafe AI}.
+\newblock Models: {Jev} versions, pricing and limits, 2026.
+\newblock Provider documentation, accessed 30 September 2026.
+  \url{https://docs.typesafe.ai/models}.
+
+\end{thebibliography}
